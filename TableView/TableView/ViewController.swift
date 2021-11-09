@@ -29,8 +29,19 @@ class ViewController: UIViewController {
         //Titel für die View
         title = "Games"
         
+        //leere UIView um die TabvleView zu "kürzen"
+        myTableView.tableFooterView = UIView()
+        
     }
 
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        print("Set Editing")
+        
+        //Wenn Editing False ist, wird es auf True gesetzt und umgekehrt
+        super.setEditing(!isEditing, animated: true)
+        myTableView.setEditing(!myTableView.isEditing, animated: true)
+    }
+    
 
 }
 
@@ -46,7 +57,7 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = myTableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
         
-        myCell.textLabel?.text = games{indexPath.row}
+        myCell.textLabel?.text = games[indexPath.row]
         
         return myCell
     }
@@ -57,5 +68,35 @@ extension ViewController: UITableViewDataSource{
 
 // Erweiterung unserer Klasse ViewController
 extension ViewController: UITableViewDelegate{
+    
+    //Funktion zum "Bewegen der Cell"
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        //Konstante für die ausgewählte Cell
+        let selectedGame = games[sourceIndexPath.row]
+        
+        //Funktion zum Löschen der Cell im Array
+        games.remove(at: sourceIndexPath.row)
+        
+        //Funktion zum Einfügen des neuen Wertes im Array
+        games.insert(selectedGame, at: destinationIndexPath.row)
+    }
+    
+    //Funktion zum Löschen der Cells
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            //Löschen aus dem Array
+            games.remove(at: indexPath.row)
+            
+            
+            //Löschen aus der TableView
+            myTableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
     
 }
