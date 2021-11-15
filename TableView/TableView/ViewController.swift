@@ -42,7 +42,51 @@ class ViewController: UIViewController {
         myTableView.setEditing(!myTableView.isEditing, animated: true)
     }
     
-
+    //Funktion des Add-Buttons
+    @IBAction func addButtonFunctin(_ sender: UIBarButtonItem) {
+        
+        //Anlegen des Textfields für die Benutzung im Alert
+        var textField = UITextField()
+        
+        //Anlegen des Alerts
+        let alert = UIAlertController(title: "Neues Game hinzufügen", message: "Bitte gib das Game ein", preferredStyle: .alert)
+        
+        //Funktion für den Alert
+        let action = UIAlertAction(title: "Hinzufügen", style: .default, handler:{ (action) in
+            //print("Hinzufügen gedrückt")
+            if textField.text == "" || textField.text == nil {
+                return
+            }else {
+                //Einfügen der Eingabe in den Array
+                self.games.insert(textField.text!, at: 0)
+                
+                
+                //Anlegen eines eigenen Index-Path, da diese Funktion diesen nicht mitgibt
+                // Neuer Wert soll in die TableView-Cell eingefügt werden:
+                let indexPath = IndexPath(row: 0, section: 0)
+                
+                
+                //Neuer Wert soll in die TableView-Cell eingefügt werden
+                self.myTableView.insertRows(at: [indexPath], with: .automatic)
+            }
+    })
+    
+        // Dem Alert die Action zuweisen
+        alert.addAction(action)
+        
+        //Dem Alert das TextField zuweisen
+        alert.addTextField(configurationHandler: {(alertTextField) in
+            //Placeholder fürs TextField
+            alertTextField.placeholder = "Game"
+            
+            //Zuweisung der Eingabe (neuer Wert) in die TableView
+            textField = alertTextField
+        })
+        
+        //Dem Alert anzeigen (presenten)
+        present(alert, animated: true, completion: nil)
+        
+}
 }
 
 // Erweiterung unserer Klasse ViewController

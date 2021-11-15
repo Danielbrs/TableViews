@@ -49,7 +49,13 @@
                             <constraint firstItem="JOg-Am-8hn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="uRy-44-A0Y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ujM-wL-aUG"/>
+                    <navigationItem key="navigationItem" id="ujM-wL-aUG">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="T4O-8l-qLM">
+                            <connections>
+                                <action selector="addButtonFunctin:" destination="BYZ-38-t0r" id="xel-Xw-ApQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="myTableView" destination="JOg-Am-8hn" id="E9a-Zn-OLs"/>
                     </connections>
